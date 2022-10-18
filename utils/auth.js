@@ -1,15 +1,10 @@
-async function logout() {
-    const response = await fetch('/api/users/logout', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' }
-    });
-  
-    if (response.ok) {
-      document.location.replace('/');
+const withAuth = (req, res, next) => {
+    if (!req.session.user_id) {
+      res.redirect('/login');
     } else {
-      alert(response.statusText);
+      next();
     }
-  }
+  };
   
-  document.querySelector('#logout').addEventListener('click', logout);
+  module.exports = withAuth;
   
